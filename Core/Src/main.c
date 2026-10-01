@@ -54,6 +54,18 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+uint16_t clock_pins[12] = {
+	    GPIO_PIN_4,  GPIO_PIN_5,  GPIO_PIN_6,  GPIO_PIN_7,
+	    GPIO_PIN_8,  GPIO_PIN_9,  GPIO_PIN_10, GPIO_PIN_11,
+	    GPIO_PIN_12, GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15
+	  };
+void clearAllClock()
+{
+	for (int i = 0; i < 12; i++)
+		      {
+		          HAL_GPIO_WritePin(GPIOA, clock_pins[i], GPIO_PIN_SET);
+		      }
+}
 
 
 /* USER CODE END 0 */
@@ -65,11 +77,7 @@ static void MX_GPIO_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint16_t clock_pins[12] = {
-	    GPIO_PIN_4,  GPIO_PIN_5,  GPIO_PIN_6,  GPIO_PIN_7,
-	    GPIO_PIN_8,  GPIO_PIN_9,  GPIO_PIN_10, GPIO_PIN_11,
-	    GPIO_PIN_12, GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15
-	  };
+
 	uint8_t current_led = 0;
   /* USER CODE END 1 */
 
@@ -99,10 +107,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  for (int i = 0; i < 12; i++)
-	      {
-	          HAL_GPIO_WritePin(GPIOA, clock_pins[i], GPIO_PIN_SET);
-	      }
+	  clearAllClock();
 	  HAL_GPIO_WritePin(GPIOA, clock_pins[current_led], GPIO_PIN_RESET);
 
 	  current_led++;

@@ -7,43 +7,43 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         00001124  0800010c  0800010c  0001010c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       0000003c  08001230  08001230  00011230  2**2
+  2 .rodata       00000024  08001230  08001230  00011230  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  0800126c  0800126c  0002000c  2**0
+  3 .ARM.extab    00000000  08001254  08001254  00020024  2**0
                   CONTENTS
-  4 .ARM          00000000  0800126c  0800126c  0002000c  2**0
+  4 .ARM          00000000  08001254  08001254  00020024  2**0
                   CONTENTS
-  5 .preinit_array 00000000  0800126c  0800126c  0002000c  2**0
+  5 .preinit_array 00000000  08001254  08001254  00020024  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  0800126c  0800126c  0001126c  2**2
+  6 .init_array   00000004  08001254  08001254  00011254  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  08001270  08001270  00011270  2**2
+  7 .fini_array   00000004  08001258  08001258  00011258  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         0000000c  20000000  08001274  00020000  2**2
+  8 .data         00000024  20000000  0800125c  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00000020  2000000c  08001280  0002000c  2**2
+  9 .bss          00000020  20000024  08001280  00020024  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  2000002c  08001280  0002002c  2**0
+ 10 ._user_heap_stack 00000604  20000044  08001280  00020044  2**0
                   ALLOC
- 11 .ARM.attributes 00000029  00000000  00000000  0002000c  2**0
+ 11 .ARM.attributes 00000029  00000000  00000000  00020024  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00003012  00000000  00000000  00020035  2**0
+ 12 .debug_info   0000302c  00000000  00000000  0002004d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00000e81  00000000  00000000  00023047  2**0
+ 13 .debug_abbrev 00000eae  00000000  00000000  00023079  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 000003d0  00000000  00000000  00023ec8  2**3
+ 14 .debug_aranges 000003d8  00000000  00000000  00023f28  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000348  00000000  00000000  00024298  2**3
+ 15 .debug_ranges 00000350  00000000  00000000  00024300  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00015548  00000000  00000000  000245e0  2**0
+ 16 .debug_macro  00015548  00000000  00000000  00024650  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00004573  00000000  00000000  00039b28  2**0
+ 17 .debug_line   00004587  00000000  00000000  00039b98  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00079828  00000000  00000000  0003e09b  2**0
+ 18 .debug_str    00079836  00000000  00000000  0003e11f  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000b78c3  2**0
+ 19 .comment      00000053  00000000  00000000  000b7955  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00000d34  00000000  00000000  000b7918  2**2
+ 20 .debug_frame  00000d54  00000000  00000000  000b79a8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -60,7 +60,7 @@ Disassembly of section .text:
  800011e:	2301      	movs	r3, #1
  8000120:	7023      	strb	r3, [r4, #0]
  8000122:	bd10      	pop	{r4, pc}
- 8000124:	2000000c 	.word	0x2000000c
+ 8000124:	20000024 	.word	0x20000024
  8000128:	00000000 	.word	0x00000000
  800012c:	08001218 	.word	0x08001218
 
@@ -73,112 +73,119 @@ Disassembly of section .text:
  800013a:	f3af 8000 	nop.w
  800013e:	bd08      	pop	{r3, pc}
  8000140:	00000000 	.word	0x00000000
- 8000144:	20000010 	.word	0x20000010
+ 8000144:	20000028 	.word	0x20000028
  8000148:	08001218 	.word	0x08001218
 
-0800014c <main>:
+0800014c <clearAllClock>:
+	    GPIO_PIN_4,  GPIO_PIN_5,  GPIO_PIN_6,  GPIO_PIN_7,
+	    GPIO_PIN_8,  GPIO_PIN_9,  GPIO_PIN_10, GPIO_PIN_11,
+	    GPIO_PIN_12, GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15
+	  };
+void clearAllClock()
+{
+ 800014c:	b580      	push	{r7, lr}
+ 800014e:	b082      	sub	sp, #8
+ 8000150:	af00      	add	r7, sp, #0
+	for (int i = 0; i < 12; i++)
+ 8000152:	2300      	movs	r3, #0
+ 8000154:	607b      	str	r3, [r7, #4]
+ 8000156:	e00b      	b.n	8000170 <clearAllClock+0x24>
+		      {
+		          HAL_GPIO_WritePin(GPIOA, clock_pins[i], GPIO_PIN_SET);
+ 8000158:	4a09      	ldr	r2, [pc, #36]	; (8000180 <clearAllClock+0x34>)
+ 800015a:	687b      	ldr	r3, [r7, #4]
+ 800015c:	f832 3013 	ldrh.w	r3, [r2, r3, lsl #1]
+ 8000160:	2201      	movs	r2, #1
+ 8000162:	4619      	mov	r1, r3
+ 8000164:	4807      	ldr	r0, [pc, #28]	; (8000184 <clearAllClock+0x38>)
+ 8000166:	f000 fc37 	bl	80009d8 <HAL_GPIO_WritePin>
+	for (int i = 0; i < 12; i++)
+ 800016a:	687b      	ldr	r3, [r7, #4]
+ 800016c:	3301      	adds	r3, #1
+ 800016e:	607b      	str	r3, [r7, #4]
+ 8000170:	687b      	ldr	r3, [r7, #4]
+ 8000172:	2b0b      	cmp	r3, #11
+ 8000174:	ddf0      	ble.n	8000158 <clearAllClock+0xc>
+		      }
+}
+ 8000176:	bf00      	nop
+ 8000178:	bf00      	nop
+ 800017a:	3708      	adds	r7, #8
+ 800017c:	46bd      	mov	sp, r7
+ 800017e:	bd80      	pop	{r7, pc}
+ 8000180:	20000000 	.word	0x20000000
+ 8000184:	40010800 	.word	0x40010800
+
+08000188 <main>:
 /**
   * @brief  The application entry point.
   * @retval int
   */
 int main(void)
 {
- 800014c:	b5b0      	push	{r4, r5, r7, lr}
- 800014e:	b088      	sub	sp, #32
- 8000150:	af00      	add	r7, sp, #0
+ 8000188:	b580      	push	{r7, lr}
+ 800018a:	b082      	sub	sp, #8
+ 800018c:	af00      	add	r7, sp, #0
   /* USER CODE BEGIN 1 */
-	uint16_t clock_pins[12] = {
- 8000152:	4b1f      	ldr	r3, [pc, #124]	; (80001d0 <main+0x84>)
- 8000154:	463c      	mov	r4, r7
- 8000156:	461d      	mov	r5, r3
- 8000158:	cd0f      	ldmia	r5!, {r0, r1, r2, r3}
- 800015a:	c40f      	stmia	r4!, {r0, r1, r2, r3}
- 800015c:	e895 0003 	ldmia.w	r5, {r0, r1}
- 8000160:	e884 0003 	stmia.w	r4, {r0, r1}
-	    GPIO_PIN_4,  GPIO_PIN_5,  GPIO_PIN_6,  GPIO_PIN_7,
-	    GPIO_PIN_8,  GPIO_PIN_9,  GPIO_PIN_10, GPIO_PIN_11,
-	    GPIO_PIN_12, GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15
-	  };
+
 	uint8_t current_led = 0;
- 8000164:	2300      	movs	r3, #0
- 8000166:	77fb      	strb	r3, [r7, #31]
+ 800018e:	2300      	movs	r3, #0
+ 8000190:	71fb      	strb	r3, [r7, #7]
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
- 8000168:	f000 f952 	bl	8000410 <HAL_Init>
+ 8000192:	f000 f93d 	bl	8000410 <HAL_Init>
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
- 800016c:	f000 f834 	bl	80001d8 <SystemClock_Config>
+ 8000196:	f000 f81f 	bl	80001d8 <SystemClock_Config>
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
- 8000170:	f000 f86e 	bl	8000250 <MX_GPIO_Init>
+ 800019a:	f000 f859 	bl	8000250 <MX_GPIO_Init>
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  for (int i = 0; i < 12; i++)
- 8000174:	2300      	movs	r3, #0
- 8000176:	61bb      	str	r3, [r7, #24]
- 8000178:	e00e      	b.n	8000198 <main+0x4c>
-	      {
-	          HAL_GPIO_WritePin(GPIOA, clock_pins[i], GPIO_PIN_SET);
- 800017a:	69bb      	ldr	r3, [r7, #24]
- 800017c:	005b      	lsls	r3, r3, #1
- 800017e:	f107 0220 	add.w	r2, r7, #32
- 8000182:	4413      	add	r3, r2
- 8000184:	f833 3c20 	ldrh.w	r3, [r3, #-32]
- 8000188:	2201      	movs	r2, #1
- 800018a:	4619      	mov	r1, r3
- 800018c:	4811      	ldr	r0, [pc, #68]	; (80001d4 <main+0x88>)
- 800018e:	f000 fc23 	bl	80009d8 <HAL_GPIO_WritePin>
-	  for (int i = 0; i < 12; i++)
- 8000192:	69bb      	ldr	r3, [r7, #24]
- 8000194:	3301      	adds	r3, #1
- 8000196:	61bb      	str	r3, [r7, #24]
- 8000198:	69bb      	ldr	r3, [r7, #24]
- 800019a:	2b0b      	cmp	r3, #11
- 800019c:	dded      	ble.n	800017a <main+0x2e>
-	      }
+	  clearAllClock();
+ 800019e:	f7ff ffd5 	bl	800014c <clearAllClock>
 	  HAL_GPIO_WritePin(GPIOA, clock_pins[current_led], GPIO_PIN_RESET);
- 800019e:	7ffb      	ldrb	r3, [r7, #31]
- 80001a0:	005b      	lsls	r3, r3, #1
- 80001a2:	f107 0220 	add.w	r2, r7, #32
- 80001a6:	4413      	add	r3, r2
- 80001a8:	f833 3c20 	ldrh.w	r3, [r3, #-32]
- 80001ac:	2200      	movs	r2, #0
- 80001ae:	4619      	mov	r1, r3
- 80001b0:	4808      	ldr	r0, [pc, #32]	; (80001d4 <main+0x88>)
- 80001b2:	f000 fc11 	bl	80009d8 <HAL_GPIO_WritePin>
+ 80001a2:	79fb      	ldrb	r3, [r7, #7]
+ 80001a4:	4a0a      	ldr	r2, [pc, #40]	; (80001d0 <main+0x48>)
+ 80001a6:	f832 3013 	ldrh.w	r3, [r2, r3, lsl #1]
+ 80001aa:	2200      	movs	r2, #0
+ 80001ac:	4619      	mov	r1, r3
+ 80001ae:	4809      	ldr	r0, [pc, #36]	; (80001d4 <main+0x4c>)
+ 80001b0:	f000 fc12 	bl	80009d8 <HAL_GPIO_WritePin>
 
 	  current_led++;
- 80001b6:	7ffb      	ldrb	r3, [r7, #31]
- 80001b8:	3301      	adds	r3, #1
- 80001ba:	77fb      	strb	r3, [r7, #31]
+ 80001b4:	79fb      	ldrb	r3, [r7, #7]
+ 80001b6:	3301      	adds	r3, #1
+ 80001b8:	71fb      	strb	r3, [r7, #7]
 	  if (current_led >= 12)
- 80001bc:	7ffb      	ldrb	r3, [r7, #31]
- 80001be:	2b0b      	cmp	r3, #11
- 80001c0:	d901      	bls.n	80001c6 <main+0x7a>
+ 80001ba:	79fb      	ldrb	r3, [r7, #7]
+ 80001bc:	2b0b      	cmp	r3, #11
+ 80001be:	d901      	bls.n	80001c4 <main+0x3c>
 		  current_led = 0;
- 80001c2:	2300      	movs	r3, #0
- 80001c4:	77fb      	strb	r3, [r7, #31]
+ 80001c0:	2300      	movs	r3, #0
+ 80001c2:	71fb      	strb	r3, [r7, #7]
 	  HAL_Delay(500);
- 80001c6:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
- 80001ca:	f000 f983 	bl	80004d4 <HAL_Delay>
-	  for (int i = 0; i < 12; i++)
- 80001ce:	e7d1      	b.n	8000174 <main+0x28>
- 80001d0:	08001230 	.word	0x08001230
+ 80001c4:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
+ 80001c8:	f000 f984 	bl	80004d4 <HAL_Delay>
+	  clearAllClock();
+ 80001cc:	e7e7      	b.n	800019e <main+0x16>
+ 80001ce:	bf00      	nop
+ 80001d0:	20000000 	.word	0x20000000
  80001d4:	40010800 	.word	0x40010800
 
 080001d8 <SystemClock_Config>:
@@ -726,19 +733,19 @@ LoopFillZerobss:
  80003ee:	f000 fee7 	bl	80011c0 <__libc_init_array>
 /* Call the application's entry point.*/
   bl main
- 80003f2:	f7ff feab 	bl	800014c <main>
+ 80003f2:	f7ff fec9 	bl	8000188 <main>
   bx lr
  80003f6:	4770      	bx	lr
   ldr r0, =_sdata
  80003f8:	20000000 	.word	0x20000000
   ldr r1, =_edata
- 80003fc:	2000000c 	.word	0x2000000c
+ 80003fc:	20000024 	.word	0x20000024
   ldr r2, =_sidata
- 8000400:	08001274 	.word	0x08001274
+ 8000400:	0800125c 	.word	0x0800125c
   ldr r2, =_sbss
- 8000404:	2000000c 	.word	0x2000000c
+ 8000404:	20000024 	.word	0x20000024
   ldr r4, =_ebss
- 8000408:	2000002c 	.word	0x2000002c
+ 8000408:	20000044 	.word	0x20000044
 
 0800040c <ADC1_2_IRQHandler>:
  * @retval : None
@@ -858,9 +865,9 @@ __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
  800048a:	3708      	adds	r7, #8
  800048c:	46bd      	mov	sp, r7
  800048e:	bd80      	pop	{r7, pc}
- 8000490:	20000000 	.word	0x20000000
- 8000494:	20000008 	.word	0x20000008
- 8000498:	20000004 	.word	0x20000004
+ 8000490:	20000018 	.word	0x20000018
+ 8000494:	20000020 	.word	0x20000020
+ 8000498:	2000001c 	.word	0x2000001c
 
 0800049c <HAL_IncTick>:
   * @note This function is declared as __weak to be overwritten in case of other
@@ -885,8 +892,8 @@ __weak void HAL_IncTick(void)
  80004b2:	46bd      	mov	sp, r7
  80004b4:	bc80      	pop	{r7}
  80004b6:	4770      	bx	lr
- 80004b8:	20000008 	.word	0x20000008
- 80004bc:	20000028 	.word	0x20000028
+ 80004b8:	20000020 	.word	0x20000020
+ 80004bc:	20000040 	.word	0x20000040
 
 080004c0 <HAL_GetTick>:
   * @note  This function is declared as __weak to be overwritten in case of other
@@ -905,7 +912,7 @@ __weak uint32_t HAL_GetTick(void)
  80004ca:	46bd      	mov	sp, r7
  80004cc:	bc80      	pop	{r7}
  80004ce:	4770      	bx	lr
- 80004d0:	20000028 	.word	0x20000028
+ 80004d0:	20000040 	.word	0x20000040
 
 080004d4 <HAL_Delay>:
   *       implementations in user file.
@@ -958,7 +965,7 @@ __weak void HAL_Delay(uint32_t Delay)
  8000512:	46bd      	mov	sp, r7
  8000514:	bd80      	pop	{r7, pc}
  8000516:	bf00      	nop
- 8000518:	20000008 	.word	0x20000008
+ 8000518:	20000020 	.word	0x20000020
 
 0800051c <__NVIC_SetPriorityGrouping>:
            In case of a conflict between priority grouping and available
@@ -3030,9 +3037,9 @@ if (((RCC_ClkInitStruct->ClockType) & RCC_CLOCKTYPE_PCLK1) == RCC_CLOCKTYPE_PCLK
  80010c6:	bf00      	nop
  80010c8:	40022000 	.word	0x40022000
  80010cc:	40021000 	.word	0x40021000
- 80010d0:	08001248 	.word	0x08001248
- 80010d4:	20000000 	.word	0x20000000
- 80010d8:	20000004 	.word	0x20000004
+ 80010d0:	08001230 	.word	0x08001230
+ 80010d4:	20000018 	.word	0x20000018
+ 80010d8:	2000001c 	.word	0x2000001c
 
 080010dc <HAL_RCC_GetSysClockFreq>:
   *         right SYSCLK value. Otherwise, any configuration based on this function will be incorrect.
@@ -3165,8 +3172,8 @@ uint32_t HAL_RCC_GetSysClockFreq(void)
  800116e:	bf00      	nop
  8001170:	40021000 	.word	0x40021000
  8001174:	007a1200 	.word	0x007a1200
- 8001178:	08001258 	.word	0x08001258
- 800117c:	08001268 	.word	0x08001268
+ 8001178:	08001240 	.word	0x08001240
+ 800117c:	08001250 	.word	0x08001250
  8001180:	003d0900 	.word	0x003d0900
 
 08001184 <RCC_Delay>:
@@ -3207,7 +3214,7 @@ static void RCC_Delay(uint32_t mdelay)
  80011b2:	46bd      	mov	sp, r7
  80011b4:	bc80      	pop	{r7}
  80011b6:	4770      	bx	lr
- 80011b8:	20000000 	.word	0x20000000
+ 80011b8:	20000018 	.word	0x20000018
  80011bc:	10624dd3 	.word	0x10624dd3
 
 080011c0 <__libc_init_array>:
@@ -3236,10 +3243,10 @@ static void RCC_Delay(uint32_t mdelay)
  80011f2:	4798      	blx	r3
  80011f4:	3601      	adds	r6, #1
  80011f6:	e7f2      	b.n	80011de <__libc_init_array+0x1e>
- 80011f8:	0800126c 	.word	0x0800126c
- 80011fc:	0800126c 	.word	0x0800126c
- 8001200:	0800126c 	.word	0x0800126c
- 8001204:	08001270 	.word	0x08001270
+ 80011f8:	08001254 	.word	0x08001254
+ 80011fc:	08001254 	.word	0x08001254
+ 8001200:	08001254 	.word	0x08001254
+ 8001204:	08001258 	.word	0x08001258
 
 08001208 <memset>:
  8001208:	4603      	mov	r3, r0
