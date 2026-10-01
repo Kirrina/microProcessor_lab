@@ -87,7 +87,9 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
-	uint8_t current_led = 0;
+	int hour = 0;
+	int min = 0;
+	int sec = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -117,12 +119,34 @@ int main(void)
   while (1)
   {
 	  clearAllClock();
-	  HAL_GPIO_WritePin(GPIOA, clock_pins[current_led], GPIO_PIN_RESET);
 
-	  current_led++;
-	  if (current_led >= 12)
-		  current_led = 0;
-	  HAL_Delay(500);
+	  int hour_pos = hour % 12;
+	  int min_pos = min/5;
+	  int sec_pos = sec/5;
+
+	  setNumberOnClock(hour_pos);
+	  setNumberOnClock(min_pos);
+	  setNumberOnClock(sec_pos);
+
+	  sec++;
+	  if(sec >=60)
+	  {
+		  min++;
+		  sec = 0;
+	  }
+	  if(min >= 60)
+	  {
+		  min = 0;
+		  hour++;
+	  }
+	  if(hour >= 24 )
+	  {
+		  hour = 0;
+
+	  }
+
+
+	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
