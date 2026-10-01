@@ -66,6 +66,11 @@ void clearAllClock()
 		          HAL_GPIO_WritePin(GPIOA, clock_pins[i], GPIO_PIN_SET);
 		      }
 }
+void setNumberOnClock(int num)
+{
+	if (num >= 0 && num <= 11)
+		HAL_GPIO_WritePin(GPIOA, clock_pins[num], GPIO_PIN_RESET);
+}
 
 
 /* USER CODE END 0 */
