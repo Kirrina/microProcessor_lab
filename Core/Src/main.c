@@ -54,6 +54,23 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void display7SEG(int num)
+{
+
+    uint8_t seg7[10] = {0x40, 0x79, 0x24, 0x30, 0x19, 0x12, 0x02, 0x78, 0x00, 0x10};
+
+    if (num < 0 || num > 9) return;
+
+    uint8_t val = seg7[num];
+
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, (val & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET); // Phân đoạn a
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, ((val >> 1) & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET); // Phân đoạn b
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, ((val >> 2) & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET); // Phân đoạn c
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, ((val >> 3) & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET); // Phân đoạn d
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, ((val >> 4) & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET); // Phân đoạn e
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, ((val >> 5) & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET); // Phân đoạn f
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, ((val >> 6) & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET); // Phân đoạn g
+}
 
 /* USER CODE END 0 */
 
@@ -64,7 +81,7 @@ static void MX_GPIO_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint8_t timer_tick = 0;
+	uint8_t counter = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -93,32 +110,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if(timer_tick < 5)
-	  {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);
-	  }
-	  else if(timer_tick < 8)
-	  {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
-	  }
-
-	  else
-	  {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);
-	  }
-
-	 timer_tick++;
-	 if(timer_tick >= 10)
-	 {
-		 timer_tick = 0;
-	 }
-
+	  if(counter >= 10) counter = 0;
+	  display7SEG(counter++);
 	  HAL_Delay(1000);
 
     /* USER CODE END WHILE */
@@ -174,9 +167,14 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, LED_RED_Pin|GPIO_PIN_6|GPIO_PIN_7, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3
+                          |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : LED_RED_Pin PA6 PA7 */
   GPIO_InitStruct.Pin = LED_RED_Pin|GPIO_PIN_6|GPIO_PIN_7;
@@ -184,6 +182,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PB0 PB1 PB2 PB3
+                           PB4 PB5 PB6 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3
+                          |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }
 
